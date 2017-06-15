@@ -9,7 +9,7 @@ Source and destination locations can be network locations
 #>
 
 $Source = Get-ChildItem -Recurse $SOURCELOCATION | Get-FileHash -Algorithm MD5
-Robocopy.exe $SOURCELOCATION $DESTINATIONLOCATION /copyall /LOG:"c:\scripts\logs\log.txt"
+Robocopy.exe $SOURCELOCATION $DESTINATIONLOCATION /copyall /MT /LOG:"c:\scripts\logs\log.txt"
 $Destination = Get-ChildItem -Recurse $DESTINATIONLOCATION | Get-FileHash -Algorithm MD5
 $transferReport = Compare-Object $Source.Hash $Destination.Hash -IncludeEqual | Out-String
 Send-MailMessage -To $DESIREDEMAIL -SmtpServer $SMTPSERVER -From $DESIREDEMAIL2 -Body $transferReport -Subject "Transfer Report" -Attachments "C:\Scripts\Logs\log.txt"
